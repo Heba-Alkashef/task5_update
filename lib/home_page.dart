@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 ThemeController.of(
                   context,
-                ).setDarkMode(ThemeController.of(context).theme);
+                ).setBlackDarkMode(ThemeController.of(context).theme);
               },
               child: Text('Black Dark Mode'),
             ),
@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 ThemeController.of(
                   context,
-                ).setSystemMode(ThemeController.of(context).theme);
+                ).setBlueDarkMode(ThemeController.of(context).theme);
               },
               child: Text('Blue Dark Mode'),
             ),

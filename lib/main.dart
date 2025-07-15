@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: const Color.fromARGB(255, 115, 163, 173),
         );
 
-      case ThemeMode.dark:
+      case ThemeMode.blackDark:
         return ThemeData(
           scaffoldBackgroundColor: const Color(0xFF000000),
           appBarTheme: const AppBarTheme(
@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
           ),
         );
 
-      case ThemeMode.system:
+      case ThemeMode.blueDark:
         return ThemeData(
           scaffoldBackgroundColor: const Color(0xFF0D1B2A),
           appBarTheme: const AppBarTheme(
@@ -71,15 +71,15 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void setDarkMode() {
+  void setBlackDarkMode() {
     setState(() {
-      theme = ThemeMode.dark;
+      theme = ThemeMode.blackDark;
     });
   }
 
-  void setSystemMode() {
+  void setBlueDarkMode() {
     setState(() {
-      theme = ThemeMode.system;
+      theme = ThemeMode.blueDark;
     });
   }
 
@@ -93,8 +93,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ThemeController(
       theme: theme,
-      setDarkMode: (ThemeMode theme) => setDarkMode(),
-      setSystemMode: (ThemeMode theme) => setSystemMode(),
+      setBlackDarkMode: (ThemeMode theme) => setBlackDarkMode(),
+      setBlueDarkMode: (ThemeMode theme) => setBlueDarkMode(),
       setLightMode: (ThemeMode theme) => setLightMode(),
       child: MaterialApp(theme: currentTheme(theme), home: MyHomePage()),
     );
@@ -104,14 +104,14 @@ class _MyAppState extends State<MyApp> {
 class ThemeController extends InheritedWidget {
   final ThemeMode theme;
   final Function(ThemeMode) setLightMode;
-  final Function(ThemeMode) setDarkMode;
-  final Function(ThemeMode) setSystemMode;
+  final Function(ThemeMode) setBlueDarkMode;
+  final Function(ThemeMode) setBlackDarkMode;
 
   ThemeController({
     required this.theme,
-    required this.setSystemMode,
+    required this.setBlackDarkMode,
     required this.setLightMode,
-    required this.setDarkMode,
+    required this.setBlueDarkMode,
     required Widget child,
   }) : super(child: child);
 
@@ -124,3 +124,5 @@ class ThemeController extends InheritedWidget {
     return oldWidget.theme != theme;
   }
 }
+
+enum ThemeMode { blueDark, light, blackDark }
