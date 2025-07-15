@@ -14,64 +14,102 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDark = false;
+  ThemeMode theme = ThemeMode.light;
 
-  ThemeData currentTheme(bool isDark) {
-    return ThemeData(
-      appBarTheme: AppBarTheme(
-        titleTextStyle: TextStyle(
-          color: isDark ? Colors.white : Colors.black,
-          fontSize: 20,
-        ),
-        backgroundColor: isDark
-            ? const Color.fromARGB(255, 87, 84, 84)
-            : const Color.fromARGB(255, 182, 204, 223),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          foregroundColor: isDark ? Colors.white : Colors.black,
-          backgroundColor: isDark
-              ? const Color.fromARGB(255, 96, 92, 92)
-              : Colors.white,
-        ),
-      ),
+  ThemeData currentTheme(ThemeMode theme) {
+    switch (theme) {
+      case ThemeMode.light:
+        return ThemeData(
+          appBarTheme: const AppBarTheme(
+            titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+            backgroundColor: Color.fromARGB(255, 182, 204, 223),
+          ),
 
-      scaffoldBackgroundColor: isDark
-          ? const Color.fromARGB(255, 26, 25, 25)
-          : const Color.fromARGB(255, 115, 163, 173),
-    );
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(160, 50),
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white,
+            ),
+          ),
+
+          scaffoldBackgroundColor: const Color.fromARGB(255, 115, 163, 173),
+        );
+
+      case ThemeMode.dark:
+        return ThemeData(
+          scaffoldBackgroundColor: const Color(0xFF000000),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color.fromARGB(255, 96, 92, 92),
+            titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(160, 50),
+              foregroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 96, 92, 92),
+            ),
+          ),
+        );
+
+      case ThemeMode.system:
+        return ThemeData(
+          scaffoldBackgroundColor: const Color(0xFF0D1B2A),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xFF1B263B),
+            titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+            iconTheme: IconThemeData(color: Colors.white),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(160, 50),
+              foregroundColor: Colors.white,
+              backgroundColor: Color(0xFF415A77),
+            ),
+          ),
+        );
+    }
   }
 
   void setDarkMode() {
     setState(() {
-      isDark = true;
+      theme = ThemeMode.dark;
+    });
+  }
+
+  void setSystemMode() {
+    setState(() {
+      theme = ThemeMode.system;
     });
   }
 
   void setLightMode() {
     setState(() {
-      isDark = false;
+      theme = ThemeMode.light;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return ThemeController(
-      isDark: isDark,
-      setDarkMode: (bool isDark) => setDarkMode(),
-      setLightMode: (bool isDark) => setLightMode(),
-      child: MaterialApp(theme: currentTheme(isDark), home: MyHomePage()),
+      theme: theme,
+      setDarkMode: (ThemeMode theme) => setDarkMode(),
+      setSystemMode: (ThemeMode theme) => setSystemMode(),
+      setLightMode: (ThemeMode theme) => setLightMode(),
+      child: MaterialApp(theme: currentTheme(theme), home: MyHomePage()),
     );
   }
 }
 
 class ThemeController extends InheritedWidget {
-  final bool isDark;
-  final Function(bool) setLightMode;
-  final Function(bool) setDarkMode;
+  final ThemeMode theme;
+  final Function(ThemeMode) setLightMode;
+  final Function(ThemeMode) setDarkMode;
+  final Function(ThemeMode) setSystemMode;
 
   ThemeController({
-    required this.isDark,
+    required this.theme,
+    required this.setSystemMode,
     required this.setLightMode,
     required this.setDarkMode,
     required Widget child,
@@ -83,6 +121,6 @@ class ThemeController extends InheritedWidget {
 
   @override
   bool updateShouldNotify(ThemeController oldWidget) {
-    return oldWidget.isDark != isDark;
+    return oldWidget.theme != theme;
   }
 }

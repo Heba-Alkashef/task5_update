@@ -21,7 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 ThemeController.of(
                   context,
-                ).setLightMode(ThemeController.of(context).isDark);
+                ).setLightMode(ThemeController.of(context).theme);
               },
               child: Text('Light Mode'),
             ),
@@ -30,9 +30,18 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 ThemeController.of(
                   context,
-                ).setDarkMode(ThemeController.of(context).isDark);
+                ).setDarkMode(ThemeController.of(context).theme);
               },
-              child: Text('Dark Mode'),
+              child: Text('Black Dark Mode'),
+            ),
+            SizedBox(height: 15),
+            ElevatedButton(
+              onPressed: () {
+                ThemeController.of(
+                  context,
+                ).setSystemMode(ThemeController.of(context).theme);
+              },
+              child: Text('Blue Dark Mode'),
             ),
           ],
         ),
